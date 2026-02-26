@@ -1,3 +1,4 @@
+const gallery = document.querySelector('.gallery');
 const images = [
   {
     preview:
@@ -64,17 +65,34 @@ const images = [
   },
 ];
 
-const gallery = document.querySelector('.gallery');
-const galleryMarkup = images.map(({preview ,original ,description}) => 
-`<li class="gallery-item">
-  <a class="gallery-link" href="${origi}">
+function itemTemplate(item) {
+  const { original, preview, description } = item;
+  return`<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
       src="${preview}"
-      data-source="${origi}"
+      data-source="${original}"
       alt="${description}"
+       width="360" height="200"
     />
   </a>
-</li>`
-).join('');
+</li>`;
+}
+
+function itemsTemplate(arr) {
+  return arr.map(itemTemplate).join('');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const markup = itemsTemplate(images);
+  gallery.innerHTML = markup;
+});
+
 gallery.insertAdjacentHTML("beforeend" , galleryMarkup);
+gallery.addEventListener('click', event => {event.preventDefault();
+});
+
+
+const styles = document.createElement('style');
+
+
