@@ -83,16 +83,27 @@ function itemTemplate(item) {
 function itemsTemplate(arr) {
   return arr.map(itemTemplate).join('');
 }
-document.addEventListener('DOMContentLoaded', () => {
-  const markup = itemsTemplate(images);
-  gallery.innerHTML = markup;
-});
 
-gallery.insertAdjacentHTML("beforeend" , galleryMarkup);
-gallery.addEventListener('click', event => {event.preventDefault();
-});
+gallery.innerHTML = itemsTemplate(images);
 
+gallery.addEventListener('click', onGalleryClick);
 
-const styles = document.createElement('style');
+function onGalleryClick(event) {
+  event.preventDefault();
+
+  const image = event.target;
+
+  if (!image.classList.contains('gallery-image')) {
+    return;
+  }
+
+  const largeImageURL = image.dataset.source;
+
+  const instance = basicLightbox.create(`
+  <img src="${largeImageURL}" width="1280" height="720">
+`);
+
+instance.show();
+}
 
 
